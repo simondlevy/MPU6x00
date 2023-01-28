@@ -43,8 +43,15 @@ class Mpu6x00 {
 
             m_spi = &spi;
             m_csPin = csPin;
+
             m_gyroFsr = gyroFsr;
             m_accelFsr = accelFsr;
+
+            float gscale[] = {250., 500., 1000., 2000.};
+            m_gyroScale = gscale[gyroFsr] / 32768.;
+
+            float ascale[] = {2., 4., 8., 16.};
+            m_accelScale =  ascale[accelFsr] / 32768.;
         }
 
         /**
@@ -98,6 +105,20 @@ class Mpu6x00 {
             readRegisters(REG_ACCEL_XOUT_H, m_buffer, 14, SPI_FULL_CLK_HZ);
         }
 
+        void getGyro(float & gx, float & gy, float & gz)
+        {
+            gx = getRawValue(9)  * m_gyroScale; 
+            gy = getRawValue(11) * m_gyroScale; 
+            gz = getRawValue(13) * m_gyroScale; 
+        }
+
+        void getAccel(float & ax, float & ay, float & az)
+        {
+            ax = getRawValue(1) * m_accelScale; 
+            ay = getRawValue(3) * m_accelScale; 
+            az = getRawValue(5) * m_accelScale; 
+        }
+
         void getRawAccel(int16_t & ax, int16_t & ay, int16_t & az)
         {
             ax = getRawValue(1); 
@@ -145,6 +166,9 @@ class Mpu6x00 {
 
         gyroFsr_e m_gyroFsr;
         accelFsr_e m_accelFsr;
+
+        float m_gyroScale;
+        float m_accelScale;
 
         uint8_t m_buffer[15];
 

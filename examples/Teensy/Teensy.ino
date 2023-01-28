@@ -43,10 +43,12 @@ void setup(void)
 void loop(void)
 {
     if (gotInterrupt) {
+
         imu.readData();
 
-        int16_t gx=0, gy=0, gz=0;
-        imu.getRawGyro(gx, gy, gz);
+        /*
+        float gx=0, gy=0, gz=0;
+        imu.getGyro(gx, gy, gz);
 
         int16_t ax=0, ay=0, az=0;
         imu.getRawAccel(ax, ay, az);
@@ -54,6 +56,13 @@ void loop(void)
         Serial.printf(
                 "gx=%+05d gy=%+05d gz=%+05d | ax=%+05d ay=%+05d az=%+05d\n",
                 gx, gy, gz, ax, ay, az);
+                */
+
+        float ax=0, ay=0, az=0;
+
+        imu.getAccel(ax, ay, az);
+
+        Serial.printf("%+3.3f\n", az);
 
         gotInterrupt = false;
     }
