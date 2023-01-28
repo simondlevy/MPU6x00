@@ -47,7 +47,11 @@ class Mpu6x00 {
             m_accelFsr = accelFsr;
         }
 
-        void begin(void)
+        /**
+          * Returns true on success, false on failure.
+          */
+
+        bool begin(void)
         {
             writeRegister(REG_PWR_MGMT_1, BIT_RESET);
             delay(100);
@@ -64,6 +68,10 @@ class Mpu6x00 {
             writeRegister(REG_SMPLRT_DIV, 0);
             delayMicroseconds(15);
 
+            if (whoAmI() != DEVICE_ID) {
+                return false;
+            }
+
             writeRegister(REG_GYRO_CONFIG, (uint8_t)(m_gyroFsr << 3));
             delayMicroseconds(15);
 
@@ -78,9 +86,14 @@ class Mpu6x00 {
 
             writeRegister(REG_CONFIG, 0);
             delayMicroseconds(1);
+
+            return true;
         }
 
     private:
+
+        // Device ID
+        static const uint8_t DEVICE_ID            = 0x68;
 
         // Configuration bits  
         static const uint8_t BIT_RAW_RDY_EN       = 0x01;
@@ -98,6 +111,8 @@ class Mpu6x00 {
         static const uint8_t REG_USER_CTRL    = 0x6A;
         static const uint8_t REG_PWR_MGMT_1   = 0x6B;
         static const uint8_t REG_PWR_MGMT_2   = 0x6C;
+        static const uint8_t REG_WHO_AM_I     = 0x75;
+
 
         static const uint32_t SPI_FULL_CLK_HZ = 20000000;
         static const uint32_t SPI_INIT_CLK_HZ = 1000000;
@@ -137,6 +152,13 @@ class Mpu6x00 {
             digitalWrite(m_csPin, HIGH);
 
             m_spi->endTransaction();
+        }
+
+        uint8_t whoAmI(void)
+        {
+            uint8_t buf[2] = {};
+            readRegisters(REG_WHO_AM_I, buf, 1, SPI_INIT_CLK_HZ);
+            return buf[1];
         }
 
 }; // class Mpu6x00
