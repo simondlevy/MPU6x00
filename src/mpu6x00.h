@@ -100,16 +100,16 @@ class Mpu6x00 {
 
         void getAccel(int16_t & ax, int16_t & ay, int16_t & az)
         {
-            ax = (((int16_t)m_buffer[1]) << 8) | m_buffer[2];
-            ay = (((int16_t)m_buffer[3]) << 8) | m_buffer[4];
-            az = getValue(5); // (((int16_t)m_buffer[5]) << 8) | m_buffer[6];
+            ax = getValue(1); 
+            ay = getValue(3); 
+            az = getValue(5); 
         }
 
         void getGyro(int16_t & gx, int16_t & gy, int16_t & gz)
         {
-            gx = (((int16_t)m_buffer[9]) << 8) | m_buffer[10];
-            gy = (((int16_t)m_buffer[11]) << 8) | m_buffer[12];
-            gz = (((int16_t)m_buffer[13]) << 8) | m_buffer[14];
+            gx = getValue(9); 
+            gy = getValue(11); 
+            gz = getValue(13); 
         }
 
     private:
