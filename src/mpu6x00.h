@@ -102,7 +102,7 @@ class Mpu6x00 {
         {
             ax = (((int16_t)m_buffer[1]) << 8) | m_buffer[2];
             ay = (((int16_t)m_buffer[3]) << 8) | m_buffer[4];
-            az = (((int16_t)m_buffer[5]) << 8) | m_buffer[6];
+            az = getValue(5); // (((int16_t)m_buffer[5]) << 8) | m_buffer[6];
         }
 
         void getGyro(int16_t & gx, int16_t & gy, int16_t & gz)
@@ -183,6 +183,11 @@ class Mpu6x00 {
             uint8_t buf[2] = {};
             readRegisters(REG_WHO_AM_I, buf, 1, SPI_INIT_CLK_HZ);
             return buf[1];
+        }
+
+        int16_t getValue(const uint8_t offset)
+        {
+            return (((int16_t)m_buffer[offset]) << 8) | m_buffer[offset+1];
         }
 
 }; // class Mpu6x00
