@@ -34,11 +34,11 @@ static void blinkLed(void)
     }
 }
 
-static uint32_t count;
+static bool gotInterrupt;
 
 static void handleInterrupt(void)
 {
-    count++;
+    gotInterrupt = true;
 }
 
 static void errorForever(void)
@@ -67,6 +67,13 @@ void loop(void)
 {
     blinkLed();
 
-    Serial.println(count);
-
+    if (gotInterrupt) {
+        imu.readData();
+        int16_t gx=0, gy=0, gz=0;
+        imu.getGyro(gx, gy, gz);
+        Serial.print(gx);
+        Serial.print("  ");
+        Serial.println();
+        gotInterrupt = false;
+    }
 }

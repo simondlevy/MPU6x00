@@ -93,6 +93,18 @@ class Mpu6x00 {
             return true;
         }
 
+        void readData(void)
+        {
+            readRegisters(REG_ACCEL_XOUT_H, m_buffer, 14, SPI_FULL_CLK_HZ);
+        }
+
+        void getGyro(int16_t & gx, int16_t & gy, int16_t & gz)
+        {
+            gx = (((int16_t)m_buffer[1]) << 8) | m_buffer[2];
+            gy = (((int16_t)m_buffer[3]) << 8) | m_buffer[4];
+            gz = (((int16_t)m_buffer[5]) << 8) | m_buffer[6];
+        }
+
     private:
 
         // Device ID
@@ -111,6 +123,7 @@ class Mpu6x00 {
         static const uint8_t REG_ACCEL_CONFIG = 0x1C;
         static const uint8_t REG_INT_PIN_CFG  = 0x37;
         static const uint8_t REG_INT_ENABLE   = 0x38;
+        static const uint8_t REG_ACCEL_XOUT_H = 0x3B;
         static const uint8_t REG_USER_CTRL    = 0x6A;
         static const uint8_t REG_PWR_MGMT_1   = 0x6B;
         static const uint8_t REG_PWR_MGMT_2   = 0x6C;
@@ -125,6 +138,8 @@ class Mpu6x00 {
 
         gyroFsr_e m_gyroFsr;
         accelFsr_e m_accelFsr;
+
+        uint8_t m_buffer[15];
 
         void writeRegister(const uint8_t reg, const uint8_t val)
         {
