@@ -70,7 +70,7 @@ void loop(void)
     if (gotInterrupt) {
         imu.readData();
         int16_t x=0, y=0, z=0;
-        imu.getGyro(x, y, z);
+        imu.getRawGyro(x, y, z);
         Serial.print(x);
         Serial.print("  ");
         Serial.print(y);

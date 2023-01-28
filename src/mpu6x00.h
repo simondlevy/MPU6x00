@@ -98,18 +98,18 @@ class Mpu6x00 {
             readRegisters(REG_ACCEL_XOUT_H, m_buffer, 14, SPI_FULL_CLK_HZ);
         }
 
-        void getAccel(int16_t & ax, int16_t & ay, int16_t & az)
+        void getRawAccel(int16_t & ax, int16_t & ay, int16_t & az)
         {
-            ax = getValue(1); 
-            ay = getValue(3); 
-            az = getValue(5); 
+            ax = getRawValue(1); 
+            ay = getRawValue(3); 
+            az = getRawValue(5); 
         }
 
-        void getGyro(int16_t & gx, int16_t & gy, int16_t & gz)
+        void getRawGyro(int16_t & gx, int16_t & gy, int16_t & gz)
         {
-            gx = getValue(9); 
-            gy = getValue(11); 
-            gz = getValue(13); 
+            gx = getRawValue(9); 
+            gy = getRawValue(11); 
+            gz = getRawValue(13); 
         }
 
     private:
@@ -185,7 +185,7 @@ class Mpu6x00 {
             return buf[1];
         }
 
-        int16_t getValue(const uint8_t offset)
+        int16_t getRawValue(const uint8_t offset)
         {
             return (((int16_t)m_buffer[offset]) << 8) | m_buffer[offset+1];
         }
