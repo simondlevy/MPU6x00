@@ -121,4 +121,22 @@ class Mpu6x00 {
             m_spi->endTransaction(); 
         }
 
+        void readRegisters(
+                const uint8_t addr,
+                uint8_t * buffer,
+                const uint8_t count,
+                const uint32_t spiClkHz)
+        {
+            m_spi->beginTransaction(SPISettings(spiClkHz, MSBFIRST, SPI_MODE3));
+
+            digitalWrite(m_csPin, LOW);
+
+            buffer[0] = addr | 0x80;
+            m_spi->transfer(buffer, count+1);
+
+            digitalWrite(m_csPin, HIGH);
+
+            m_spi->endTransaction();
+        }
+
 }; // class Mpu6x00
