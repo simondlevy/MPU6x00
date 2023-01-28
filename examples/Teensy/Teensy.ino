@@ -28,21 +28,6 @@ static void errorForever(void)
     }
 }
 
-static void reportAxes(const char * label, const int16_t x, const int16_t y, const int16_t z)
-{
-    Serial.print(label);
-    Serial.print("x = ");
-    Serial.print((float)x, 4);
-    Serial.print("  ");
-    Serial.print(label);
-    Serial.print("y = ");
-    Serial.print(y);
-    Serial.print("  ");
-    Serial.print(label);
-    Serial.print("z = ");
-    Serial.print(z);
-}
-
 void setup(void)
 {
     Serial.begin(115200);
@@ -59,13 +44,15 @@ void loop(void)
 {
     if (gotInterrupt) {
         imu.readData();
+
         int16_t gx=0, gy=0, gz=0;
         imu.getRawGyro(gx, gy, gz);
 
-        Serial.printf("gx=%+05d gy=%+05d\n", gx, gy);
+        int16_t ax=0, ay=0, az=0;
+        imu.getRawAccel(ax, ay, az);
 
-        //reportAxes("g", x, y, z);
-        //Serial.println();
+        Serial.printf("gx=%+05d gy=%+05d gz=%+05d | ax=%+05d ay=%+05d az=%+05d\n",
+                gx, gy, gz, ax, ay, az);
 
         gotInterrupt = false;
     }
