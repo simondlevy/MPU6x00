@@ -47,8 +47,8 @@ class Mpu6x00 {
             m_gyroFsr = gyroFsr;
             m_accelFsr = accelFsr;
 
-            float gscale[] = {250., 500., 1000., 2000.};
-            m_gyroScale = gscale[gyroFsr] / 32768.;
+            // float gscale[] = {250., 500., 1000., 2000.};
+            m_gyroScale = 1.0; // gscale[gyroFsr] / 32768.;
 
             float ascale[] = {2., 4., 8., 16.};
             m_accelScale =  ascale[accelFsr] / 32768.;
