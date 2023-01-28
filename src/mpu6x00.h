@@ -112,11 +112,6 @@ class Mpu6x00 {
             gz = getRawValue(13); 
         }
 
-        int16_t getTemperature(void)
-        {
-            return getRawValue(7);
-        }
-
     private:
 
         // Device ID

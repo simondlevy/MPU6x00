@@ -51,7 +51,8 @@ void loop(void)
         int16_t ax=0, ay=0, az=0;
         imu.getRawAccel(ax, ay, az);
 
-        Serial.printf("gx=%+05d gy=%+05d gz=%+05d | ax=%+05d ay=%+05d az=%+05d\n",
+        Serial.printf(
+                "gx=%+05d gy=%+05d gz=%+05d | ax=%+05d ay=%+05d az=%+05d\n",
                 gx, gy, gz, ax, ay, az);
 
         gotInterrupt = false;
