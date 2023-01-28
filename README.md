@@ -2,8 +2,8 @@
 
 ## About
 
-This is a header-only Arduino library for the InvenSense/TDK MPU6000 and MPU6500 inertial measurement units using
-the SPI bus.
+This is a simple, header-only Arduino library for the InvenSense/TDK MPU6000 and MPU6500 inertial measurement units using
+the SPI bus.  
 
 ## Use cases
 

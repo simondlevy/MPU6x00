@@ -112,10 +112,15 @@ class Mpu6x00 {
             gz = getRawValue(13); 
         }
 
+        int16_t getTemperature(void)
+        {
+            return getRawValue(7);
+        }
+
     private:
 
         // Device ID
-        static const uint8_t DEVICE_ID            = 0x68;
+        static const uint8_t DEVICE_ID = 0x68;
 
         // Configuration bits  
         static const uint8_t BIT_RAW_RDY_EN       = 0x01;
