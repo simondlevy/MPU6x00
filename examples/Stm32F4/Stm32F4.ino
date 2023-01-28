@@ -17,6 +17,10 @@ static const uint8_t INT_PIN = PC4;
 
 static const uint8_t LED_PIN = PB5;
 
+static SPIClass spi = SPIClass(MOSI_PIN, MISO_PIN, SCLK_PIN);
+
+static Mpu6x00 imu = Mpu6x00(spi, CS_PIN);
+
 static void blinkLed(void)
 {
     const auto msec = millis();
@@ -32,9 +36,14 @@ static void blinkLed(void)
 
 void setup(void)
 {
-    static SPIClass spi = SPIClass(MOSI_PIN, MISO_PIN, SCLK_PIN);
-
     Serial.begin(115200);
+
+    if (!imu.begin()) {
+        while (true) {
+            Serial.println("Error initializing IMU");
+            delay(500);
+        }
+    }
 
     pinMode(LED_PIN, OUTPUT);
 }
