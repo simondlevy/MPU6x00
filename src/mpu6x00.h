@@ -98,11 +98,18 @@ class Mpu6x00 {
             readRegisters(REG_ACCEL_XOUT_H, m_buffer, 14, SPI_FULL_CLK_HZ);
         }
 
+        void getAccel(int16_t & ax, int16_t & ay, int16_t & az)
+        {
+            ax = (((int16_t)m_buffer[1]) << 8) | m_buffer[2];
+            ay = (((int16_t)m_buffer[3]) << 8) | m_buffer[4];
+            az = (((int16_t)m_buffer[5]) << 8) | m_buffer[6];
+        }
+
         void getGyro(int16_t & gx, int16_t & gy, int16_t & gz)
         {
-            gx = (((int16_t)m_buffer[1]) << 8) | m_buffer[2];
-            gy = (((int16_t)m_buffer[3]) << 8) | m_buffer[4];
-            gz = (((int16_t)m_buffer[5]) << 8) | m_buffer[6];
+            gx = (((int16_t)m_buffer[9]) << 8) | m_buffer[10];
+            gy = (((int16_t)m_buffer[11]) << 8) | m_buffer[12];
+            gz = (((int16_t)m_buffer[13]) << 8) | m_buffer[14];
         }
 
     private:

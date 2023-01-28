@@ -69,10 +69,13 @@ void loop(void)
 
     if (gotInterrupt) {
         imu.readData();
-        int16_t gx=0, gy=0, gz=0;
-        imu.getGyro(gx, gy, gz);
-        Serial.print(gx);
+        int16_t x=0, y=0, z=0;
+        imu.getGyro(x, y, z);
+        Serial.print(x);
         Serial.print("  ");
+        Serial.print(y);
+        Serial.print("  ");
+        Serial.print(z);
         Serial.println();
         gotInterrupt = false;
     }
