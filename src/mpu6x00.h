@@ -50,7 +50,6 @@ class Mpu6x00 {
         /**
           * Returns true on success, false on failure.
           */
-
         bool begin(void)
         {
             m_spi->begin();
@@ -116,7 +115,6 @@ class Mpu6x00 {
         static const uint8_t REG_PWR_MGMT_1   = 0x6B;
         static const uint8_t REG_PWR_MGMT_2   = 0x6C;
         static const uint8_t REG_WHO_AM_I     = 0x75;
-
 
         static const uint32_t SPI_FULL_CLK_HZ = 20000000;
         static const uint32_t SPI_INIT_CLK_HZ = 1000000;

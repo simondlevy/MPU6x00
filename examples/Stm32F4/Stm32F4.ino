@@ -34,16 +34,31 @@ static void blinkLed(void)
     }
 }
 
+static uint32_t count;
+
+static void handleInterrupt(void)
+{
+    count++;
+}
+
+static void errorForever(void)
+{
+    while (true) {
+        Serial.println("Error initializing IMU");
+        delay(500);
+    }
+}
+
 void setup(void)
 {
     Serial.begin(115200);
 
     if (!imu.begin()) {
-        while (true) {
-            Serial.println("Error initializing IMU");
-            delay(500);
-        }
+        errorForever();
     }
+
+    pinMode(INT_PIN, INPUT);
+    attachInterrupt(INT_PIN, handleInterrupt, RISING);
 
     pinMode(LED_PIN, OUTPUT);
 }
@@ -51,5 +66,7 @@ void setup(void)
 void loop(void)
 {
     blinkLed();
+
+    Serial.println(count);
 
 }
