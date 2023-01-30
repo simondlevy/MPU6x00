@@ -11,6 +11,6 @@ I have tested this library on the following hardware:
 
 * [MikroE MPU IMU Click](https://www.mikroe.com/mpu-imu-click) with [Teensy 4.0](https://www.pjrc.com/store/teensy40.html) development board.
 As shown in the photo above, you have to remove the zero-Ohm resistors on the MikroE's I<sup>2</sup>C
-pads and solder a bridge across the adjacent SPI pads.
+pads and solder a bridge across each of the adjacent SPI pads.
 
 * [BetaFPV F405 flight controller](https://betafpv.com/products/toothpick-f405-2-4s-aio-brushless-flight-controller-20a-blheli_32-v4)
