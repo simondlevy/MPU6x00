@@ -100,7 +100,7 @@ class Mpu6x00 {
             return true;
         }
 
-        void readData(void)
+        void readSensor(void)
         {
             readRegisters(REG_ACCEL_XOUT_H, m_buffer, 14, SPI_FULL_CLK_HZ);
         }
@@ -119,18 +119,64 @@ class Mpu6x00 {
             az = getRawValue(5) * m_accelScale; 
         }
 
-        void getRawAccel(int16_t & ax, int16_t & ay, int16_t & az)
+        float getAccelX(void)
         {
-            ax = getRawValue(1); 
-            ay = getRawValue(3); 
-            az = getRawValue(5); 
+            return getAccelValue(1);
         }
 
-        void getRawGyro(int16_t & gx, int16_t & gy, int16_t & gz)
+        float getAccelY(void)
         {
-            gx = getRawValue(9); 
-            gy = getRawValue(11); 
-            gz = getRawValue(13); 
+            return getAccelValue(3);
+        }
+
+        float getAccelZ(void)
+        {
+            return getAccelValue(5);
+        }
+
+        float getGyroX(void)
+        {
+            return getGyroValue(9);
+        }
+
+        float getGyroY(void)
+        {
+            return getGyroValue(11);
+        }
+
+        float getGyroZ(void)
+        {
+            return getGyroValue(13);
+        }
+
+        int16_t getAccelX_count(void)
+        {
+            return getRawValue(1); 
+        }
+
+        int16_t getAccelY_count(void)
+        {
+            return getRawValue(3); 
+        }
+
+        int16_t getAccelZ_count(void)
+        {
+            return getRawValue(5); 
+        }
+
+        int16_t getGyroX_count(void)
+        {
+            return getRawValue(9); 
+        }
+
+        int16_t getGyroY_count(void)
+        {
+            return getRawValue(11); 
+        }
+
+        int16_t getGyroZ_count(void)
+        {
+            return getRawValue(13); 
         }
 
     private:
@@ -212,6 +258,21 @@ class Mpu6x00 {
         int16_t getRawValue(const uint8_t offset)
         {
             return (((int16_t)m_buffer[offset]) << 8) | m_buffer[offset+1];
+        }
+
+        float getAccelValue(const uint8_t k)
+        {
+            return getFloatValue(k, m_accelScale);
+        }
+
+        float getGyroValue(const uint8_t k)
+        {
+            return getFloatValue(k, m_gyroScale);
+        }
+
+        float getFloatValue(const uint8_t k, const float scale)
+        {
+            return getRawValue(k) * scale;
         }
 
 }; // class Mpu6x00

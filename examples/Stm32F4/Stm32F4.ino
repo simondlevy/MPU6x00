@@ -68,15 +68,16 @@ void loop(void)
     blinkLed();
 
     if (gotInterrupt) {
-        imu.readData();
-        int16_t x=0, y=0, z=0;
-        imu.getRawGyro(x, y, z);
-        Serial.print(x);
+
+        imu.readSensor();
+
+        Serial.print(imu.getGyroX_count());
         Serial.print("  ");
-        Serial.print(y);
+        Serial.print(imu.getGyroY_count());
         Serial.print("  ");
-        Serial.print(z);
-        Serial.println();
+        Serial.print(imu.getGyroZ_count());
+        Serial.println(); 
+
         gotInterrupt = false;
     }
 }

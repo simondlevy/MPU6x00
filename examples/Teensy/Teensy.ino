@@ -44,18 +44,16 @@ void loop(void)
 {
     if (gotInterrupt) {
 
-        imu.readData();
-
-        float ax=0, ay=0, az=0;
-        float gx=0, gy=0, gz=0;
-
-        imu.getGyro(gx, gy, gz);
-
-        imu.getAccel(ax, ay, az);
+        imu.readSensor();
 
         Serial.printf(
                 "gx=%+3.3f gy=%+3.3f gz=%+3.3f | ax=%+3.3f ay=%+3.3f az=%+3.3f\n",
-                gx, gy, gz, ax, ay, az);
+                imu.getGyroX(),
+                imu.getGyroY(),
+                imu.getGyroZ(),
+                imu.getAccelX(),
+                imu.getAccelY(),
+                imu.getAccelZ());
 
         gotInterrupt = false;
     }
