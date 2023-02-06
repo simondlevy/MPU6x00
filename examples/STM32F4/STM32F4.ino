@@ -53,6 +53,8 @@ void setup(void)
 {
     Serial.begin(115200);
 
+    spi.begin();
+
     if (!imu.begin()) {
         errorForever();
     }

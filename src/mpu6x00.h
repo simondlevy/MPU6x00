@@ -56,8 +56,6 @@ class Mpu6x00 {
           */
         bool begin(void)
         {
-            m_spi->begin();
-
             pinMode(m_csPin, OUTPUT);
 
             writeRegister(REG_PWR_MGMT_1, BIT_RESET);
