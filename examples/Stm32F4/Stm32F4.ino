@@ -71,11 +71,11 @@ void loop(void)
 
         imu.readSensor();
 
-        Serial.print(imu.getGyroX_count());
+        Serial.print(imu.getRawGyroX());
         Serial.print("  ");
-        Serial.print(imu.getGyroY_count());
+        Serial.print(imu.getRawGyroY());
         Serial.print("  ");
-        Serial.print(imu.getGyroZ_count());
+        Serial.print(imu.getRawGyroZ());
         Serial.println(); 
 
         gotInterrupt = false;

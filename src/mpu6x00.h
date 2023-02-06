@@ -40,18 +40,15 @@ class Mpu6x00 {
                 const gyroFsr_e gyroFsr = GYRO_2000DPS,
                 const accelFsr_e accelFsr = ACCEL_16G)
         {
+            init(&spi, csPin, gyroFsr, accelFsr);
+        }
 
-            m_spi = &spi;
-            m_csPin = csPin;
-
-            m_gyroFsr = gyroFsr;
-            m_accelFsr = accelFsr;
-
-            // float gscale[] = {250., 500., 1000., 2000.};
-            m_gyroScale = 1.0; // gscale[gyroFsr] / 32768.;
-
-            float ascale[] = {2., 4., 8., 16.};
-            m_accelScale =  ascale[accelFsr] / 32768.;
+        Mpu6x00(
+                const uint8_t csPin,
+                const gyroFsr_e gyroFsr = GYRO_2000DPS,
+                const accelFsr_e accelFsr = ACCEL_16G)
+        {
+            init(&SPI, csPin, gyroFsr, accelFsr);
         }
 
         /**
@@ -149,32 +146,32 @@ class Mpu6x00 {
             return getGyroValue(13);
         }
 
-        int16_t getAccelX_count(void)
+        int16_t getRawAccelX(void)
         {
             return getRawValue(1); 
         }
 
-        int16_t getAccelY_count(void)
+        int16_t getRawAccelY(void)
         {
             return getRawValue(3); 
         }
 
-        int16_t getAccelZ_count(void)
+        int16_t getRawAccelZ(void)
         {
             return getRawValue(5); 
         }
 
-        int16_t getGyroX_count(void)
+        int16_t getRawGyroX(void)
         {
             return getRawValue(9); 
         }
 
-        int16_t getGyroY_count(void)
+        int16_t getRawGyroY(void)
         {
             return getRawValue(11); 
         }
 
-        int16_t getGyroZ_count(void)
+        int16_t getRawGyroZ(void)
         {
             return getRawValue(13); 
         }
@@ -218,6 +215,25 @@ class Mpu6x00 {
 
         uint8_t m_buffer[15];
 
+        void init(
+                SPIClass * spi,
+                const uint8_t csPin,
+                const gyroFsr_e gyroFsr,
+                const accelFsr_e accelFsr)
+        {
+            m_spi = spi;
+            m_csPin = csPin;
+
+            m_gyroFsr = gyroFsr;
+            m_accelFsr = accelFsr;
+
+            // float gscale[] = {250., 500., 1000., 2000.};
+            m_gyroScale = 1.0; // gscale[gyroFsr] / 32768.;
+
+            float ascale[] = {2., 4., 8., 16.};
+            m_accelScale =  ascale[accelFsr] / 32768.;
+         }
+ 
         void writeRegister(const uint8_t reg, const uint8_t val)
         {
             m_spi->beginTransaction(SPISettings(SPI_INIT_CLK_HZ, MSBFIRST, SPI_MODE3)); 
