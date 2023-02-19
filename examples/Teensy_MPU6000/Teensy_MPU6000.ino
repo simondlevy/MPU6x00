@@ -11,7 +11,7 @@
 static const uint8_t CS_PIN  = 10;
 static const uint8_t INT_PIN = 9;
 
-static Mpu6x00 imu = Mpu6x00(CS_PIN);
+static Mpu6000 imu = Mpu6000(CS_PIN);
 
 static bool gotInterrupt;
 

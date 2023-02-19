@@ -34,23 +34,6 @@ class Mpu6x00 {
 
         } accelFsr_e;
 
-        Mpu6x00(
-                SPIClass & spi,
-                const uint8_t csPin,
-                const gyroFsr_e gyroFsr = GYRO_2000DPS,
-                const accelFsr_e accelFsr = ACCEL_16G)
-        {
-            init(&spi, csPin, gyroFsr, accelFsr);
-        }
-
-        Mpu6x00(
-                const uint8_t csPin,
-                const gyroFsr_e gyroFsr = GYRO_2000DPS,
-                const accelFsr_e accelFsr = ACCEL_16G)
-        {
-            init(&SPI, csPin, gyroFsr, accelFsr);
-        }
-
         /**
           * Returns true on success, false on failure.
           */
@@ -73,7 +56,7 @@ class Mpu6x00 {
             writeRegister(REG_SMPLRT_DIV, 0);
             delayMicroseconds(15);
 
-            if (whoAmI() != DEVICE_ID) {
+            if (whoAmI() != m_deviceId) {
                 return false;
             }
 
@@ -174,10 +157,29 @@ class Mpu6x00 {
             return getRawValue(13); 
         }
 
-    private:
+    protected:
 
-        // Device ID
-        static const uint8_t DEVICE_ID = 0x68;
+        Mpu6x00(
+                const uint8_t deviceId,
+                SPIClass & spi,
+                const uint8_t csPin,
+                const gyroFsr_e gyroFsr,
+                const accelFsr_e accelFsr)
+        {
+            init(deviceId, &spi, csPin, gyroFsr, accelFsr);
+        }
+
+        Mpu6x00(
+                const uint8_t deviceId,
+                const uint8_t csPin,
+                const gyroFsr_e gyroFsr,
+                const accelFsr_e accelFsr = ACCEL_16G)
+        {
+            init(deviceId, &SPI, csPin, gyroFsr, accelFsr);
+        }
+
+
+    private:
 
         // Configuration bits  
         static const uint8_t BIT_RAW_RDY_EN       = 0x01;
@@ -205,6 +207,8 @@ class Mpu6x00 {
 
         uint8_t m_csPin;
 
+        uint8_t m_deviceId;
+
         gyroFsr_e m_gyroFsr;
         accelFsr_e m_accelFsr;
 
@@ -214,11 +218,13 @@ class Mpu6x00 {
         uint8_t m_buffer[15];
 
         void init(
+                const uint8_t deviceId,
                 SPIClass * spi,
                 const uint8_t csPin,
                 const gyroFsr_e gyroFsr,
                 const accelFsr_e accelFsr)
         {
+            m_deviceId = deviceId;
             m_spi = spi;
             m_csPin = csPin;
 
@@ -290,3 +296,49 @@ class Mpu6x00 {
         }
 
 }; // class Mpu6x00
+
+
+class Mpu6000 : public Mpu6x00 {
+
+    public:
+
+        Mpu6000(
+                SPIClass & spi,
+                const uint8_t csPin,
+                const gyroFsr_e gyroFsr = GYRO_2000DPS,
+                const accelFsr_e accelFsr = ACCEL_16G)
+            : Mpu6x00(0x68, spi, csPin, gyroFsr, accelFsr)
+        {
+        }
+
+        Mpu6000(
+                const uint8_t csPin,
+                const gyroFsr_e gyroFsr = GYRO_2000DPS,
+                const accelFsr_e accelFsr = ACCEL_16G)
+            : Mpu6x00(0x68, SPI, csPin, gyroFsr, accelFsr)
+        {
+        }
+}; 
+
+class Mpu6500 : public Mpu6x00 {
+
+    public:
+
+        Mpu6500(
+                SPIClass & spi,
+                const uint8_t csPin,
+                const gyroFsr_e gyroFsr = GYRO_2000DPS,
+                const accelFsr_e accelFsr = ACCEL_16G)
+            : Mpu6x00(0x70, spi, csPin, gyroFsr, accelFsr)
+        {
+        }
+
+        Mpu6500(
+                const uint8_t csPin,
+                const gyroFsr_e gyroFsr = GYRO_2000DPS,
+                const accelFsr_e accelFsr = ACCEL_16G)
+            : Mpu6x00(0x70, SPI, csPin, gyroFsr, accelFsr)
+        {
+        }
+};
+
