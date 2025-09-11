@@ -1,0 +1,24 @@
+SKETCH = Teensy_MPU6000
+
+ifeq ($(OS),Windows_NT)
+PORT = COM3
+TERM = plink -serial
+PYTHON = python
+else
+PORT = /dev/ttyACM0
+TERM = miniterm.py
+PYTHON = python3
+endif
+
+FQBN = teensy:avr:teensy40
+
+build: $(SKETCH).ino
+	arduino-cli compile --libraries $(HOME)/Documents/Arduino/libraries \
+		--fqbn $(FQBN) $(SKETCH).ino
+
+flash:
+	arduino-cli upload -p $(PORT) --fqbn $(FQBN) .
+
+listen:
+	miniterm.py $(PORT) --exit-char 3
+

@@ -6,7 +6,7 @@
    MIT License
  */
 
-#include "mpu6x00.h"
+#include "mpu6x00.hpp"
 
 static const uint8_t MOSI_PIN = PA7;
 static const uint8_t MISO_PIN = PA6;

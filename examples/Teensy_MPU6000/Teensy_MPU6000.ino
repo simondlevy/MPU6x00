@@ -6,7 +6,7 @@
    MIT License
  */
 
-#include "mpu6x00.h"
+#include "mpu6x00.hpp"
 
 static const uint8_t CS_PIN  = 10;
 static const uint8_t INT_PIN = 9;
