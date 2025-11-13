@@ -8,7 +8,7 @@ TERM = miniterm.py
 PYTHON = python3
 endif
 
-FQBN = STMicroelectronics:stm32:GenF4:pnum=GENERIC_F411CEUX,usb=CDCgen
+FQBN = STMicroelectronics:stm32:GenF4:pnum=GENERIC_F405RGTX,usb=CDCgen
 
 SKETCH = STM32F4_MPU6000
 
@@ -23,7 +23,7 @@ $(BIN): $(SKETCH).ino $(EXTRA_SRC)
 		$(HOME)/Documents/Arduino/libraries --libraries $(ROOT)/../.. \
 		--build-path ./build --fqbn $(FQBN) $(SKETCH).ino
 
-flash: $(BIN)
+dfu: $(BIN)
 	dfu-util -d 0483:5740 -a 0 -s 0x08000000:leave -D build/$(SKETCH).ino.bin
 
 clean:

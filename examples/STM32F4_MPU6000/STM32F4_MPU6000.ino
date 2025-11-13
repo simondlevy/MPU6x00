@@ -13,9 +13,9 @@ static const uint8_t MISO_PIN = PA6;
 static const uint8_t SCLK_PIN = PA5;
 
 static const uint8_t CS_PIN  = PA4;
-static const uint8_t INT_PIN = PA1;
+static const uint8_t INT_PIN = PC4;
 
-static const uint8_t LED_PIN = PC13;
+static const uint8_t LED_PIN = PB5;
 
 static SPIClass spi = SPIClass(MOSI_PIN, MISO_PIN, SCLK_PIN);
 
